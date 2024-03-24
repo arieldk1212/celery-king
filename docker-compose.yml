@@ -1,0 +1,35 @@
+version: '3.9'
+
+services:
+
+  server:
+    build:
+      context: .
+    command: >
+      sh -c "python manage.py makemigrations &&
+             python manage.py migrate &&
+             python manage.py runserver 0.0.0.0:8000 --noreload"
+    ports:
+      - 8000:8000
+    volumes:
+      - ./server:/server
+      - ./data/web:/vol/web
+    env_file:
+      - .env
+    environment:
+      - SECRET_KEY
+      - DEBUG
+    depends_on:
+      - redis
+
+  redis:
+    image: redis
+    restart: always
+    ports:
+      - 6379:6379
+    volumes:
+    - redis_data_a:/data
+    entrypoint: redis-server --appendonly yes
+
+volumes:
+  redis_data_a:
