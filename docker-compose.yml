@@ -19,6 +19,21 @@ services:
     environment:
       - SECRET_KEY
       - DEBUG
+      - CELERY_BROKER_REDIS_URL
+    depends_on:
+      - redis
+    
+  worker:
+    build:
+      context: .
+    command: >
+      sh -c "celery -A server worker --beat -l INFO"
+    env_file:
+      - .env
+    environment:
+      - CELERY_BROKER_REDIS_URL
+    links:
+      - redis
     depends_on:
       - redis
 
