@@ -5,3 +5,5 @@ django-celery-results
 python-decouple
 redis
 selenium
+bs4
+psycopg2-binary

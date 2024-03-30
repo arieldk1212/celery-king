@@ -20,8 +20,20 @@ services:
       - SECRET_KEY
       - DEBUG
       - CELERY_BROKER_REDIS_URL
+      - DB_HOST
+      - DB_NAME
+      - DB_USER
+      - DB_PASSWORD
     depends_on:
       - redis
+      - postgres
+
+  postgres:
+    image: postgres:13-alpine
+    environment:
+      - POSTGRES_DB=${DB_NAME}
+      - POSTGRES_USER=${DB_USER}
+      - POSTGRES_PASSWORD=${DB_PASSWORD}
     
   worker:
     build:

@@ -9,3 +9,4 @@ app = Celery("server", broker=config("CELERY_BROKER_REDIS_URL"))
 app.config_from_object("django.conf:settings", namespace="CELERY")
 
 app.autodiscover_tasks()
+
